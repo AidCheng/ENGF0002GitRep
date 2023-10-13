@@ -1,0 +1,88 @@
+# Bug report
+
+## `bomber_bigloop.py`
+
+### Bugs
+
+1. The plane won't drop any bomb if the bomb does not hit the target
+2. The plane cannot drop any bomb onto the most right building
+3. When the plane landed, it could still run into a building
+4. The game cannot restart as expected after pressing the according key
+5. another building generated on the right-end of the screen blocked the plane
+
+### what should happen
+
+1. The bomb is supposed to be able to be dropped after the last one landed or hit the building
+2. The plane should be able to drop bomb on the buildings of all the locations
+3. When the plane successfully landed, it is not expected to hit any building
+4. the game is supposed to restart when we press KEY_'r'
+5. No building is expected to be generated outside the screen
+
+### How to fix
+
+1. reset `bomb_falling` to `False` when the bomb reach the bottom of the CANVAS [lien 246]
+
+    ```py
+    if (bomb_y >= CANVAS_HEIGHT or bomb_x <= 0 or bomb_x > CANVAS_WIDTH):
+    # bomb landed
+    bomb_falling = False
+    ```
+
+2. adjust the plane's initial position when born at a lower position [line 179]
+
+    ```py
+    plane_x += (CANVAS_WIDTH + plane_width)
+    ```
+
+3. if all the building height is lower or equal to 0, the game won't fail. [line 200]
+
+    ```py
+    building_remain = 0
+    for building_num in range(0, 1200//SPACING):
+                    
+        if building_heights[building_num] <= 0:
+            building_remain += 0
+        else:
+            building_remain += 1
+                
+    if building_remain == 0:
+        game_running = True
+
+    else:
+        game_running  = False
+        won = False
+    ```
+
+4. The error is caused by an undecleared variable `msg_text` [line 100]
+    
+    ```py
+    canvas_exist = False
+    while prog_running:
+        .......
+    elif ev.char == 'r':
+            # restart the game
+
+        if canvas_exist != False: # add an if to before the operation
+            canvas.delete(msg_text)
+            
+        level = 1
+        score = 0
+        plane_x = plane_start_x
+        plane_y = plane_start_y
+        building_width = SPACING * 0.8
+        rebuild_buildings = True
+        won = False
+        game_running = True
+    ```
+
+5. Check if all the building position is lower or equal to CANVAS HEIGHT. If yes, change the height to the position where the plane where never hit [line 156 ]
+
+    ```py
+    for building_num in range(0, 1200//SPACING):
+            height = rand.randint(10,500) #random number between 10 and 500
+            x = building_num*SPACING
+
+            if (x + 80 > CANVAS_WIDTH):
+                height = - CANVAS_HEIGHT
+            # reset the height of the building that is outside the range of the window
+    ```
