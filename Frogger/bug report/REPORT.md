@@ -13,7 +13,7 @@
 
 - Died when entering the log:
 
-    ```pyr
+    ```py
     # fr_model line-372
     for log in self.logs:
         if log.contains(self.frog):  
@@ -50,7 +50,7 @@
     ```py
     # fr_model line-271
     x = (spacing + GRID_SIZE)//2
-    'create the first home here
+    'create the first home here’
     self.homes_x.append(x)
     self.homes_occupied.append(False)
 

@@ -1,3 +1,5 @@
+# Runze Cheng / 05/Oct/2023
+
 def gcd(a,b):
     while not a == b:
         if a > b:

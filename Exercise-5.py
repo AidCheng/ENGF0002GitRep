@@ -37,3 +37,5 @@ def break_cipher(text):
         
 text = str(input())
 break_cipher(text)
+
+# Use the letter frequency in English language and use score += score to score each txts.
