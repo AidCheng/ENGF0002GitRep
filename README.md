@@ -6,3 +6,7 @@
 - Game bug fixes
 - Tetris AI
 - Pac-man protocol spec
+
+## License
+
+MIT
